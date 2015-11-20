@@ -2,30 +2,30 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-// 有关程序集的常规信息通过以下特性集 
-// 控制。更改这些特性值可修改
+// 有关程序集的常规信息通过以下
+// 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("Tasker.Test")]
+[assembly: AssemblyTitle("Tasker.Domain.Repositories")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Tasker.Test")]
+[assembly: AssemblyProduct("Tasker.Domain.Repositories")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// 将 ComVisible 设置为 false 会使此程序集中的类型 
+// 将 ComVisible 设置为 false 使此程序集中的类型
 // 对 COM 组件不可见。如果需要从 COM 访问此程序集中的类型，
-// 请将该类型上的 ComVisible 特性设置为 true。
+// 则将该类型上的 ComVisible 特性设置为 true。
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("33d8ab04-f1e7-4a97-9746-44aaf5eb03bc")]
+[assembly: Guid("b72bef6f-a10b-4c8a-a968-1db594d248b9")]
 
-// 程序集的版本信息由以下四个值组成:
+// 程序集的版本信息由下面四个值组成:
 //
 //      主版本
-//      次版本
+//      次版本 
 //      生成号
 //      修订号
 //

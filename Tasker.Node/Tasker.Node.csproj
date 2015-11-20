@@ -47,6 +47,25 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tasker.DataObject\Tasker.DataObject.csproj">
+      <Project>{08f1fe5f-a30d-4fd4-a0fe-b98f32221a8e}</Project>
+      <Name>Tasker.DataObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasker.Domain\Tasker.Domain.csproj">
+      <Project>{ef94cede-6c72-4f6b-ac50-95c13263460b}</Project>
+      <Name>Tasker.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasker.Infrastructure\Tasker.Infrastructure.csproj">
+      <Project>{42cf8ff7-efb9-48be-9bf5-104a02f9c3ad}</Project>
+      <Name>Tasker.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tasker.ServiceContracts\Tasker.ServiceContracts.csproj">
+      <Project>{9982cf9d-8d19-4742-a49c-d7341bdef7bb}</Project>
+      <Name>Tasker.ServiceContracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

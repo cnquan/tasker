@@ -57,13 +57,15 @@
     <Compile Include="AppDomainLoader.cs" />
     <Compile Include="BaseExtension.cs" />
     <Compile Include="Cache\ICacheProvider.cs" />
+    <Compile Include="Cache\RAMCacheProvider.cs" />
     <Compile Include="CompressHelper.cs" />
     <Compile Include="EmailHelper.cs" />
     <Compile Include="IOHelper.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DESHelper.cs" />
-    <Compile Include="ServiceLocator.cs" />
+    <Compile Include="Unity\ServiceLocator.cs" />
+    <Compile Include="Unity\UnityLifetimeManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Config\log4net.config">

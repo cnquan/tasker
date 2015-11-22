@@ -19,12 +19,7 @@ namespace Tasker.Domain.Repositories.EntityFramework
 
         public DbContext Context
         {
-            get { return this.efContext; }
-        }
-
-        public Guid Id
-        {
-            get { return Guid.NewGuid(); }
+            get { return efContext; }
         }
 
         public void BeginTransaction()

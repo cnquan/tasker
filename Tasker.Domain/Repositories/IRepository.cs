@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Tasker.Domain.Aggregate;
+using Tasker.Domain.Storage;
 
 namespace Tasker.Domain.Repositories
 {
@@ -40,53 +41,43 @@ namespace Tasker.Domain.Repositories
         void Delete(TAggregateRoot obj);
 
         /// <summary>
-        /// 查询全部聚合
-        /// </summary>
-        /// <returns></returns>
-        IQueryable<TAggregateRoot> FindAll();
-
-        /// <summary>
         /// 查询聚合
         /// </summary>
-        /// <param name="where"></param>
-        /// <param name="sort"></param>
+        /// <param name="where">查询条件</param>
+        /// <param name="sort">排序</param>
+        /// <param name="sortby">排序方式</param>
+        /// <param name="eagerLoadingProperties">动态加载</param>
         /// <returns></returns>
-        IQueryable<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, dynamic>> where,
-                                           Expression<Func<TAggregateRoot, dynamic>> sort);
+        IQueryable<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, bool>> where = null,
+                                           Expression<Func<TAggregateRoot, dynamic>> sort = null,
+                                           SortOrder sortby = SortOrder.Unspecified,
+                                           params Expression<Func<TAggregateRoot, dynamic>>[] eagerLoadingProperties);
 
         /// <summary>
         /// 分页查询聚合
         /// </summary>
-        /// <param name="sortPredicate"></param>
-        /// <param name="sort"></param>
-        /// <param name="pageNumber"></param>
-        /// <param name="pageSize"></param>
+        /// <param name="where">查询条件</param>
+        /// <param name="sort">排序</param>
+        /// <param name="sortby">排序方式</param>
+        /// <param name="pageNumber">页数</param>
+        /// <param name="pageSize">页大小</param>
+        /// <param name="eagerLoadingProperties">动态加载</param>
         /// <returns></returns>
-        IQueryable<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, dynamic>> where,
-                                           Expression<Func<TAggregateRoot, dynamic>> sort, int pageNumber, int pageSize);
-
-        /// <summary>
-        /// 查询全部聚合(加载聚合项)
-        /// </summary>
-        /// <param name="eagerLoadingProperties"></param>
-        /// <returns></returns>
-        IQueryable<TAggregateRoot> FindAll(params Expression<Func<TAggregateRoot, dynamic>>[] eagerLoadingProperties);
-
-        /// <summary>
-        /// 查询全部聚合(带排序)
-        /// </summary>
-        /// <param name="sort"></param>
-        /// <param name="eagerLoadingProperties"></param>
-        /// <returns></returns>
-        IQueryable<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, dynamic>> sort,
+        PagedResult<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, bool>> where = null,
+                                           Expression<Func<TAggregateRoot, dynamic>> sort = null,
+                                           SortOrder sortby = SortOrder.Unspecified,
+                                           int pageNumber = 1,
+                                           int pageSize = 10,
                                            params Expression<Func<TAggregateRoot, dynamic>>[] eagerLoadingProperties);
 
         /// <summary>
         /// 查询单个聚合
         /// </summary>
-        /// <param name="eagerLoadingProperties"></param>
+        /// <param name="where">查询条件</param>
+        /// <param name="eagerLoadingProperties">动态加载</param>
         /// <returns></returns>
-        TAggregateRoot Find(params Expression<Func<TAggregateRoot, dynamic>>[] eagerLoadingProperties);
+        TAggregateRoot Find(Expression<Func<TAggregateRoot, bool>> where,
+                            params Expression<Func<TAggregateRoot, dynamic>>[] eagerLoadingProperties);
     }
 
     /// <summary>

@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Tasker.Domain.Aggregate;
 
-namespace Tasker.Domain.Model.User
+namespace Tasker.Domain.Model
 {
     /// <summary>
     /// 用户领域
     /// </summary>
     public class User : IAggregateRoot
     {
-        public User() 
+        public User()
         {
             CreateDate = DateTime.Now;
         }
@@ -51,5 +51,10 @@ namespace Tasker.Domain.Model.User
         /// 用户创建时间
         /// </summary>
         public DateTime CreateDate { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remark { get; set; }
     }
 }

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
+using System.Data.Entity;
 using Tasker.Domain.Repositories;
 using Tasker.Domain.Aggregate;
+using Tasker.Domain.Storage;
 
 namespace Tasker.Domain.Repositories.EntityFramework
 {
@@ -18,7 +20,7 @@ namespace Tasker.Domain.Repositories.EntityFramework
         where TAggregateRoot : class, IAggregateRoot<TKey>
     {
         /// <summary>
-        /// EF上下文实例
+        /// EF上下文
         /// </summary>
         private readonly IEntityFrameworkRepositoryContext efContext;
 
@@ -32,14 +34,6 @@ namespace Tasker.Domain.Repositories.EntityFramework
                 this.efContext = context as IEntityFrameworkRepositoryContext;
         }
 
-        /// <summary>
-        /// EF上下文实例
-        /// </summary>
-        protected IEntityFrameworkRepositoryContext EFContext
-        {
-            get { return this.efContext; }
-        }
-
         public IRepositoryContext Context
         {
             get { return this.efContext; }
@@ -47,47 +41,116 @@ namespace Tasker.Domain.Repositories.EntityFramework
 
         public void Add(TAggregateRoot obj)
         {
-            throw new NotImplementedException();
+            efContext.Context.Entry(obj).State = System.Data.EntityState.Added;
         }
 
         public void Modify(TAggregateRoot obj)
         {
-            throw new NotImplementedException();
+            efContext.Context.Entry(obj).State = System.Data.EntityState.Modified;
         }
 
         public void Delete(TAggregateRoot obj)
         {
-            throw new NotImplementedException();
+            efContext.Context.Entry(obj).State = System.Data.EntityState.Deleted;
         }
 
-        public IQueryable<TAggregateRoot> FindAll()
+        public IQueryable<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, bool>> where = null,
+                                                  Expression<Func<TAggregateRoot, dynamic>> sort = null,
+                                                  SortOrder sortby = SortOrder.Unspecified,
+                                                  params Expression<Func<TAggregateRoot, dynamic>>[] eagerLoadingProperties)
         {
-            throw new NotImplementedException();
+            var query = efContext.Context.Set<TAggregateRoot>().AsQueryable();
+            if (eagerLoadingProperties != null &&
+               eagerLoadingProperties.Length > 0)
+            {
+                for (int i = 1; i < eagerLoadingProperties.Length; i++)
+                {
+                    var eagerLoadingPath = this.GetEagerLoadingPath(eagerLoadingProperties[i]);
+                    query = query.Include(eagerLoadingPath);
+                }
+
+            }
+            if (where != null)
+            {
+                query = query.Where(where);
+            }
+            if (sort != null)
+            {
+                switch (sortby)
+                {
+                    case SortOrder.Ascending:
+                        query = query.OrderBy(sort); break;
+                    case SortOrder.Descending:
+                        query = query.OrderByDescending(sort); break;
+                    default:
+                        break;
+                }
+            }
+            return query;
         }
 
-        public IQueryable<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, dynamic>> where, Expression<Func<TAggregateRoot, dynamic>> sort)
+        public PagedResult<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, bool>> where = null,
+                                                  Expression<Func<TAggregateRoot, dynamic>> sort = null,
+                                                  SortOrder sortby = SortOrder.Unspecified,
+                                                  int pageNumber = 1,
+                                                  int pageSize = 10,
+                                                  params Expression<Func<TAggregateRoot, dynamic>>[] eagerLoadingProperties)
         {
-            throw new NotImplementedException();
+            var query = this.FindAll(where, sort, sortby, eagerLoadingProperties);
+            int skip = (pageNumber - 1) * pageSize;
+            int take = pageSize;
+            var list = query.Skip(skip).Take(take).GroupBy(p => new { Total = query.Count() }).FirstOrDefault();
+            if (list == null)
+                return null;
+            else
+                return new PagedResult<TAggregateRoot>(list.Key.Total, (list.Key.Total + pageSize - 1) / pageSize, pageSize, pageNumber, list.Select(p => p).ToList());
         }
 
-        public IQueryable<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, dynamic>> where, Expression<Func<TAggregateRoot, dynamic>> sort, int pageNumber, int pageSize)
+        public TAggregateRoot Find(Expression<Func<TAggregateRoot, bool>> where,
+                                   params Expression<Func<TAggregateRoot, dynamic>>[] eagerLoadingProperties)
         {
-            throw new NotImplementedException();
+            var query = efContext.Context.Set<TAggregateRoot>().AsQueryable();
+            if (eagerLoadingProperties != null &&
+                eagerLoadingProperties.Length > 0)
+            {
+                for (int i = 1; i < eagerLoadingProperties.Length; i++)
+                {
+                    var eagerLoadingPath = this.GetEagerLoadingPath(eagerLoadingProperties[i]);
+                    query = query.Include(eagerLoadingPath);
+                }
+            }
+            return query.Where(where).FirstOrDefault();
         }
 
-        public IQueryable<TAggregateRoot> FindAll(params Expression<Func<TAggregateRoot, dynamic>>[] eagerLoadingProperties)
+        private string GetEagerLoadingPath(Expression<Func<TAggregateRoot, dynamic>> eagerLoadingProperty)
         {
-            throw new NotImplementedException();
+            MemberExpression memberExpression = this.GetMemberInfo(eagerLoadingProperty);
+            var parameterName = eagerLoadingProperty.Parameters.First().Name;
+            var memberExpressionStr = memberExpression.ToString();
+            var path = memberExpressionStr.Replace(parameterName + ".", "");
+            return path;
         }
 
-        public IQueryable<TAggregateRoot> FindAll(Expression<Func<TAggregateRoot, dynamic>> sort, params Expression<Func<TAggregateRoot, dynamic>>[] eagerLoadingProperties)
+        private MemberExpression GetMemberInfo(LambdaExpression lambda)
         {
-            throw new NotImplementedException();
-        }
+            if (lambda == null)
+                throw new ArgumentNullException("method");
 
-        public TAggregateRoot Find(params Expression<Func<TAggregateRoot, dynamic>>[] eagerLoadingProperties)
-        {
-            throw new NotImplementedException();
+            MemberExpression memberExpr = null;
+
+            if (lambda.Body.NodeType == ExpressionType.Convert)
+            {
+                memberExpr = ((UnaryExpression)lambda.Body).Operand as MemberExpression;
+            }
+            else if (lambda.Body.NodeType == ExpressionType.MemberAccess)
+            {
+                memberExpr = lambda.Body as MemberExpression;
+            }
+
+            if (memberExpr == null)
+                throw new ArgumentException("method");
+
+            return memberExpr;
         }
     }
 

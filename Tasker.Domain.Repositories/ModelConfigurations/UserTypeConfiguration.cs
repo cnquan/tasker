@@ -7,9 +7,9 @@ using System.Data.Entity.ModelConfiguration;
 using System.ComponentModel.DataAnnotations.Schema;
 using Tasker.Domain.Model;
 
-namespace Tasker.Domain.Repositories.ModelConfigurations.User
+namespace Tasker.Domain.Repositories.ModelConfigurations
 {
-    public class UserTypeConfiguration : EntityTypeConfiguration<Model.User.User>
+    public class UserTypeConfiguration : EntityTypeConfiguration<Model.User>
     {
         public UserTypeConfiguration()
         {
@@ -33,6 +33,9 @@ namespace Tasker.Domain.Repositories.ModelConfigurations.User
             Property(x => x.UserTel)
                 .IsUnicode()
                 .HasMaxLength(100);
+            Property(x => x.Remark)
+                .IsUnicode()
+                .HasMaxLength(2000);
         }
     }
 }

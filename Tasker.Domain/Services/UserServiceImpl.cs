@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Tasker.Domain.Repositories;
 using Tasker.DataObject;
 using Tasker.ServiceContracts;
-using Tasker.Domain.Repositories.UserRepository;
+using Tasker.Domain.Repositories;
 
-namespace Tasker.Domain.Services.User
+namespace Tasker.Domain.Services
 {
     public class UserServiceImpl : ApplicationService, IUserService
     {
@@ -23,10 +23,8 @@ namespace Tasker.Domain.Services.User
 
         public UserDTO GetUser(string userNo)
         {
-            Model.User.User u = _UserRepository.GetUserByNo(userNo);
-            //transfer to dto
-            
-            return null;
+            Model.User u = _UserRepository.GetUserByNo(userNo);
+            return AutoMapper.Mapper.Map<Model.User, UserDTO>(u);
         }
     }
 }

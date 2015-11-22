@@ -42,5 +42,19 @@ namespace Tasker.DataObject
         /// 用户创建时间
         /// </summary>
         public DateTime CreateDate { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remark { get; set; }
+
+        /// <summary>
+        /// 输出用户名
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return UserName;
+        }
     }
 }

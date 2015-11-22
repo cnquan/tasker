@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 
-namespace Tasker.Infrastructure
+namespace Tasker.Infrastructure.Unity
 {
     /// <summary>
     /// IOC注入器

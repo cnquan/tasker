@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tasker.Domain.Model.User;
+using Tasker.Domain.Model;
 
-namespace Tasker.Domain.Repositories.UserRepository
+namespace Tasker.Domain.Repositories
 {
     public interface IUserRepository : IRepository<int, User>
     {

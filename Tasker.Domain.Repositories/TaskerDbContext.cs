@@ -10,6 +10,11 @@ namespace Tasker.Domain.Repositories
 {
     public class TaskerDbContext : DbContext
     {
+        static TaskerDbContext()
+        {
+            Database.SetInitializer<TaskerDbContext>(new TaskerDbContextInitailizer());
+        }
+
         public TaskerDbContext()
             : base("Tasker")
         {
@@ -20,15 +25,15 @@ namespace Tasker.Domain.Repositories
         /// <summary>
         /// User
         /// </summary>
-        public DbSet<Model.User.User> User
+        public DbSet<Model.User> User
         {
-            get { return Set<Model.User.User>(); }
+            get { return Set<Model.User>(); }
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations
-                        .Add(new ModelConfigurations.User.UserTypeConfiguration());
+                        .Add(new ModelConfigurations.UserTypeConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }

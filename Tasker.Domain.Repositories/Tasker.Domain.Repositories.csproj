@@ -50,6 +50,7 @@
     <Compile Include="ModelConfigurations\UserTypeConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="TaskerDbConnection.cs" />
     <Compile Include="TaskerDbContext.cs" />
     <Compile Include="TaskerDbContextInitailizer.cs" />
   </ItemGroup>
@@ -64,7 +65,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\efconnet.config">
+    <None Include="Config\efconnect.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

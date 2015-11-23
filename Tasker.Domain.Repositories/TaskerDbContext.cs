@@ -16,7 +16,7 @@ namespace Tasker.Domain.Repositories
         }
 
         public TaskerDbContext()
-            : base("Tasker")
+            : base(new TaskerDbConnection().ConnectionString)
         {
             Configuration.LazyLoadingEnabled = true;
             Configuration.AutoDetectChangesEnabled = true;

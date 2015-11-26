@@ -44,6 +44,12 @@
   <ItemGroup>
     <Compile Include="Aggregate\IAggregateRoot.cs" />
     <Compile Include="Aggregate\IEntity.cs" />
+    <Compile Include="Model\Node.cs" />
+    <Compile Include="Model\Performance.cs" />
+    <Compile Include="Model\Task.cs" />
+    <Compile Include="Model\TaskCategory.cs" />
+    <Compile Include="Model\TaskLog.cs" />
+    <Compile Include="Model\TaskVersion.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DisposableObject.cs" />

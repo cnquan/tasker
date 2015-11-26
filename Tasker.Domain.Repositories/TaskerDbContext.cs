@@ -82,7 +82,12 @@ namespace Tasker.Domain.Repositories
         {
             modelBuilder.Configurations
                         .Add(new ModelConfigurations.UserTypeConfiguration())
-                        .Add(new ModelConfigurations.NodeTypeConfigurations());
+                        .Add(new ModelConfigurations.NodeTypeConfigurations())
+                        .Add(new ModelConfigurations.PerformanceTypeConfigurations())
+                        .Add(new ModelConfigurations.TaskCategoryTypeConfigurations())
+                        .Add(new ModelConfigurations.TaskLogTypeConfigurations())
+                        .Add(new ModelConfigurations.TaskTypeConfigurations())
+                        .Add(new ModelConfigurations.TaskVersionTypeConfigurations());
             base.OnModelCreating(modelBuilder);
         }
     }

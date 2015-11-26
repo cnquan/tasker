@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tasker.ServiceContracts;
 using Tasker.DataObject;
+using Tasker.Infrastructure;
 using Tasker.Infrastructure.Unity;
 
 namespace Tasker.Node

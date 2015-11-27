@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8B1C20
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tasker.TaskManager", "Tasker.TaskManager\Tasker.TaskManager.csproj", "{81D364C6-892F-4A4F-B57F-7D93632A8A81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{08F1FE5F-A30D-4FD4-A0FE-B98F32221A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08F1FE5F-A30D-4FD4-A0FE-B98F32221A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08F1FE5F-A30D-4FD4-A0FE-B98F32221A8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81D364C6-892F-4A4F-B57F-7D93632A8A81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81D364C6-892F-4A4F-B57F-7D93632A8A81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81D364C6-892F-4A4F-B57F-7D93632A8A81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81D364C6-892F-4A4F-B57F-7D93632A8A81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

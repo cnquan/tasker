@@ -47,6 +47,7 @@
     <Compile Include="EntityFramework\EntityFrameworkRepository.cs" />
     <Compile Include="EntityFramework\EntityFrameworkRepositoryContext.cs" />
     <Compile Include="EntityFramework\IEntityFrameworkRepositoryContext.cs" />
+    <Compile Include="ModelConfigurations\NodeLogTypeConfigurations.cs" />
     <Compile Include="ModelConfigurations\NodeTypeConfigurations.cs" />
     <Compile Include="ModelConfigurations\PerformanceTypeConfigurations.cs" />
     <Compile Include="ModelConfigurations\TaskCategoryTypeConfigurations.cs" />

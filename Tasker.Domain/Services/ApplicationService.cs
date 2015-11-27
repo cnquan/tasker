@@ -29,6 +29,12 @@ namespace Tasker.Domain.Services
         {
             Mapper.CreateMap<Model.User, UserDTO>()
                 .ForMember(dest => dest.Remark, opt => opt.MapFrom(src => src.Remark));
+            Mapper.CreateMap<Model.Node, NodeDTO>();
+            Mapper.CreateMap<Model.NodeLog, NodeLogDTO>();
+            Mapper.CreateMap<Model.Task, TaskDTO>();
+            Mapper.CreateMap<Model.TaskLog, TaskLogDTO>();
+            Mapper.CreateMap<Model.TaskCategory, TaskCategoryDTO>();
+            Mapper.CreateMap<Model.TaskVersion, TaskVersionDTO>();
         }
 
         /// <summary>

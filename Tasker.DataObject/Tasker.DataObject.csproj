@@ -40,6 +40,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NodeDTO.cs" />
+    <Compile Include="NodeLogDTO.cs" />
+    <Compile Include="TaskCategoryDTO.cs" />
+    <Compile Include="TaskDTO.cs" />
+    <Compile Include="TaskLogDTO.cs" />
+    <Compile Include="TaskVersionDTO.cs" />
     <Compile Include="UserDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

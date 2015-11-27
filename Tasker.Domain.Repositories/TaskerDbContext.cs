@@ -39,6 +39,14 @@ namespace Tasker.Domain.Repositories
         }
 
         /// <summary>
+        /// NodeLog
+        /// </summary>
+        public DbSet<Model.NodeLog> NodeLog
+        {
+            get { return Set<Model.NodeLog>(); }
+        }
+
+        /// <summary>
         /// Task
         /// </summary>
         public DbSet<Model.Task> Task
@@ -87,7 +95,8 @@ namespace Tasker.Domain.Repositories
                         .Add(new ModelConfigurations.TaskCategoryTypeConfigurations())
                         .Add(new ModelConfigurations.TaskLogTypeConfigurations())
                         .Add(new ModelConfigurations.TaskTypeConfigurations())
-                        .Add(new ModelConfigurations.TaskVersionTypeConfigurations());
+                        .Add(new ModelConfigurations.TaskVersionTypeConfigurations())
+                        .Add(new ModelConfigurations.NodeLogTypeConfigurations());
             base.OnModelCreating(modelBuilder);
         }
     }

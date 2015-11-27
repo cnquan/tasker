@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tasker.Domain.Aggregate;
+using Tasker.Domain.Storage;
 
 namespace Tasker.Domain.Model
 {
@@ -70,7 +71,7 @@ namespace Tasker.Domain.Model
         /// <summary>
         /// 任务执行状态
         /// </summary>
-        public int? TaskState { get; set; }
+        public Constants.TaskState? TaskState { get; set; }
 
         /// <summary>
         /// 任务版本号

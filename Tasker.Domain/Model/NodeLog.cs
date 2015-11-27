@@ -31,7 +31,7 @@ namespace Tasker.Domain.Model
         /// <summary>
         /// 日志类型
         /// </summary>
-        public LogType LogType { get; set; }
+        public Storage.Constants.LogType? LogType { get; set; }
 
         /// <summary>
         /// 创建时间

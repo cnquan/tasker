@@ -31,38 +31,11 @@ namespace Tasker.DataObject
         /// <summary>
         /// 日志类型
         /// </summary>
-        public LogType LogType { get; set; }
+        public Constants.LogType? LogType { get; set; }
 
         /// <summary>
         /// 创建时间
         /// </summary>
         public DateTime? CreateTime { get; set; }
-    }
-
-    /// <summary>
-    /// 日志类型
-    /// </summary>
-    public enum LogType
-    {
-        
-        /// <summary>
-        /// 常用日志
-        /// </summary>
-        CommonLog = 1,
-
-        /// <summary>
-        /// 系统日志
-        /// </summary>
-        SystemLog = 2,
-
-        /// <summary>
-        /// 系统错误日志
-        /// </summary>
-        SystemError = 3,
-
-        /// <summary>
-        /// 常用错误日志
-        /// </summary>
-        CommonError = 4,
     }
 }

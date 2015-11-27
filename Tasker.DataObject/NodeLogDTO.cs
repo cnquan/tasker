@@ -26,7 +26,7 @@ namespace Tasker.DataObject
         /// <summary>
         /// 日志类型
         /// </summary>
-        public LogType LogType { get; set; }
+        public Constants.LogType? LogType { get; set; }
 
         /// <summary>
         /// 创建时间

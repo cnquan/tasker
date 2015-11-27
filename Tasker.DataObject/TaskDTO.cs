@@ -66,7 +66,7 @@ namespace Tasker.DataObject
         /// <summary>
         /// 任务执行状态
         /// </summary>
-        public int? TaskState { get; set; }
+        public Constants.TaskState? TaskState { get; set; }
 
         /// <summary>
         /// 任务版本号

@@ -86,6 +86,14 @@ namespace Tasker.Domain.Repositories
             get { return Set<Model.Performance>(); }
         }
 
+        /// <summary>
+        /// Commands
+        /// </summary>
+        public DbSet<Model.Command> Command
+        {
+            get { return Set<Model.Command>(); }
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations

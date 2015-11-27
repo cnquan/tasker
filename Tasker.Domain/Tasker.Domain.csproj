@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Aggregate\IAggregateRoot.cs" />
     <Compile Include="Aggregate\IEntity.cs" />
+    <Compile Include="Model\Command.cs" />
     <Compile Include="Model\Node.cs" />
     <Compile Include="Model\NodeLog.cs" />
     <Compile Include="Model\Performance.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Services\ApplicationService.cs" />
     <Compile Include="Services\UserServiceImpl.cs" />
+    <Compile Include="Storage\Constants.cs" />
     <Compile Include="Storage\PagedResult.cs" />
     <Compile Include="Storage\SortOrder.cs" />
   </ItemGroup>

@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandDTO.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="NodeDTO.cs" />
     <Compile Include="NodeLogDTO.cs" />
     <Compile Include="TaskCategoryDTO.cs" />

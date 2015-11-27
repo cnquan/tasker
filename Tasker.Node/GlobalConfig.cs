@@ -17,6 +17,11 @@ namespace Tasker.Node
         public static int NodeId { get; set; }
 
         /// <summary>
+        /// 任务数据库连接
+        /// </summary>
+        public static string TaskConnectString { get; set; }
+
+        /// <summary>
         /// 任务DLL目录
         /// </summary>
         public static string TaskDLLDir = "TaskDLL";

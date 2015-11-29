@@ -29,6 +29,6 @@ namespace Tasker.ServiceContracts
         /// <param name="nodeId">节点ID</param>
         /// <param name="state">任务状态</param>
         /// <returns></returns>
-        List<int> GetNodeTasks(int nodeId, Constants.TaskState taskState = null);
+        List<int> GetNodeTasks(int nodeId, Constants.TaskState taskState);
     }
 }

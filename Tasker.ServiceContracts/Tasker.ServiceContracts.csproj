@@ -42,6 +42,7 @@
     <Compile Include="ILogService.cs" />
     <Compile Include="INodeService.cs" />
     <Compile Include="ISystemService.cs" />
+    <Compile Include="ITaskService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

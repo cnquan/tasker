@@ -21,9 +21,10 @@ namespace Tasker.ServiceContracts
         /// 添加节点错误日志
         /// </summary>
         /// <param name="nodeId"></param>
+        /// <param name="msg"></param>
         /// <param name="ex"></param>
         /// <returns></returns>
-        bool AddNodeError(int nodeId, Exception ex);
+        bool AddNodeError(int nodeId, string msg, Exception ex);
 
         /// <summary>
         /// 添加任务日志
@@ -37,8 +38,9 @@ namespace Tasker.ServiceContracts
         /// 添加任务错误日志
         /// </summary>
         /// <param name="taskId"></param>
+        /// <param name="msg"></param>
         /// <param name="ex"></param>
         /// <returns></returns>
-        bool AddTaskError(int taskId, Exception ex);
+        bool AddTaskError(int taskId, string msg, Exception ex);
     }
 }

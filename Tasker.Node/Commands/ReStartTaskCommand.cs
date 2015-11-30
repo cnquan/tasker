@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tasker.Node.NodeRuntime;
 
 namespace Tasker.Node.Commands
 {
@@ -10,7 +11,9 @@ namespace Tasker.Node.Commands
     {
         public override void Execute()
         {
-            base.Execute();
+            TaskProvider p = new TaskProvider();
+            p.Stop(this.CommandInfo.Id);
+            p.Start(this.CommandInfo.Id);
         }
     }
 }

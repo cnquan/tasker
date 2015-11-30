@@ -9,6 +9,7 @@ using Tasker.TaskManager.TaskRuntime;
 using Tasker.ServiceContracts;
 using Tasker.Infrastructure;
 using Tasker.Infrastructure.Unity;
+using Tasker.Infrastructure.Serialization;
 
 namespace Tasker.Node.NodeRuntime
 {
@@ -75,12 +76,33 @@ namespace Tasker.Node.NodeRuntime
                 taskDLL.TaskRuntimeInfo = new TaskRuntimeInfo()
                 {
                     TaskConnectString = GlobalConfig.TaskConnectString,
-                    Task = null//TODO: Copy Task Object
+                    Task = new TaskManager.Model.Task()
+                    {
+                        Id = taskRuntime.Task.Id,
+                        TaskName = taskRuntime.Task.TaskName,
+                        Node_Id = taskRuntime.Task.Node.Id,
+                        TaskCreateTime = taskRuntime.Task.TaskCreateTime,
+                        TaskUpdateTime = taskRuntime.Task.TaskUpdateTime,
+                        TaskLastStartTime = taskRuntime.Task.TaskLastStartTime,
+                        TaskLastEndTime = taskRuntime.Task.TaskLastEndTime,
+                        TaskLastErrorTime = taskRuntime.Task.TaskLastErrorTime,
+                        TaskRunCount = taskRuntime.Task.TaskRunCount,
+                        TaskErrorCount = taskRuntime.Task.TaskErrorCount,
+                        TaskState = (int)taskRuntime.Task.TaskState,
+                        TaskVersion_Id = taskRuntime.Task.TaskVersion.Id,
+                        TaskConfiguration = taskRuntime.Task.TaskConfiguration,
+                        TaskCron = taskRuntime.Task.TaskCron,
+                        TaskMainClassDLLName = taskRuntime.Task.TaskMainClassDLLName,
+                        TaskMainClassNameSpace = taskRuntime.Task.TaskMainClassNameSpace,
+                        Creator_Id = taskRuntime.Task.Creator.Id,
+                        CreateDate = taskRuntime.Task.CreateDate,
+                        Remark = taskRuntime.Task.Remark
+                    }
                 };
                 taskDLL.AppInfo = new TaskAppInfo();
                 if (taskRuntime.Task.TaskConfiguration.IsNotNull())
                 {
-                    taskDLL.AppInfo = null; //TODO: Serialization Json 
+                    taskDLL.AppInfo = new JsonHelper().Deserialize<TaskAppInfo>(taskRuntime.Task.TaskConfiguration);
                 }
                 taskRuntime.TaskDLL = taskDLL;
 
@@ -89,12 +111,15 @@ namespace Tasker.Node.NodeRuntime
                 {
                     _TaskService.UpdateTaskState(taskId, DataObject.Constants.TaskState.Running);
                 }
+                _LogService.AddNodeLog(taskRuntime.Task.Node.Id,
+                    "节点【" + taskRuntime.Task.Node.NodeName + "】开启任务【" + taskRuntime.Task.TaskName + "】成功！");
+                return result;
             }
             catch (Exception ex)
             {
+                Dispose(taskId, taskRuntime, true);
                 throw ex;
             }
-            return true;
         }
 
         /// <summary>
@@ -103,7 +128,22 @@ namespace Tasker.Node.NodeRuntime
         /// <param name="taskId"></param>
         public bool Stop(int taskId)
         {
-            return true;
+            var task = TaskPoolManager.GetInstance().Get(taskId.ToString());
+            bool result;
+            if (task == null)
+            {
+                result = _TaskService.UpdateTaskState(taskId, DataObject.Constants.TaskState.Stop);
+            }
+            else
+            {
+                result = Dispose(taskId, task, true);
+                if (result)
+                {
+                    _TaskService.UpdateTaskState(taskId, DataObject.Constants.TaskState.Stop);
+                }
+            }
+            _LogService.AddTaskLog(taskId, "节点【" + GlobalConfig.NodeId + "】停止任务成功");
+            return result;
         }
 
         /// <summary>
@@ -112,7 +152,22 @@ namespace Tasker.Node.NodeRuntime
         /// <param name="taskId"></param>
         public bool Uninstall(int taskId)
         {
-            return true;
+            var task = TaskPoolManager.GetInstance().Get(taskId.ToString());
+            bool result = true;
+            if (task == null)
+            {
+                result = _TaskService.UpdateTaskState(taskId, DataObject.Constants.TaskState.Stop);
+            }
+            else
+            {
+                result = Dispose(taskId, task, true);
+                if (result)
+                {
+                    _TaskService.UpdateTaskState(taskId, DataObject.Constants.TaskState.Stop);
+                }
+            }
+            _LogService.AddTaskLog(taskId, "节点【" + GlobalConfig.NodeId + "】卸载任务成功");
+            return result;
         }
 
         /// <summary>
@@ -124,6 +179,47 @@ namespace Tasker.Node.NodeRuntime
         /// <returns></returns>
         protected bool Dispose(int taskId, NodeTaskRuntimeInfo info, bool isForce)
         {
+            if (info != null && info.TaskDLL != null)
+            {
+                try
+                {
+                    info.TaskDLL.Dispose();
+                    info.TaskDLL = null;
+                }
+                catch (TaskDisposeTimeOutException e)
+                {
+                    _LogService.AddNodeError(GlobalConfig.NodeId, "强制释放任务资源", e);
+                    if (!isForce) throw e;
+                }
+                catch (Exception ex)
+                {
+                    _LogService.AddNodeError(GlobalConfig.NodeId, "强制释放任务资源", ex);
+                }
+            }
+            if (info != null && info.Domain != null)
+            {
+                try
+                {
+                    new AppDomainLoader<BaseTask>().UnLoad(info.Domain);
+                    info.Domain = null;
+                }
+                catch (Exception e)
+                {
+                    _LogService.AddNodeError(GlobalConfig.NodeId, "强制释放应用程序域", e);
+                }
+            }
+            if (TaskPoolManager.GetInstance().Get(taskId.ToString()) != null)
+            {
+                try
+                {
+                    TaskPoolManager.GetInstance().Remove(taskId.ToString());
+                }
+                catch (Exception e)
+                {
+                    _LogService.AddNodeError(GlobalConfig.NodeId, "强制是否任务池", e);
+                }
+            }
+            _LogService.AddTaskLog(taskId, "节点【" + GlobalConfig.NodeId + "】已对任务【" + taskId + "】进行资源释放");
             return true;
         }
     }

@@ -43,18 +43,18 @@ namespace Tasker.Node.NodeMonitor
                     }
                     catch (Exception e)
                     {
-                        _LogService.AddNodeError(GlobalConfig.NodeId, e);
+                        _LogService.AddNodeError(GlobalConfig.NodeId, "节点任务异常运行检测出现错误", e);
                     }
                 }
                 runTasks.ForEach((c) =>
                 {
-                    _LogService.AddTaskError(c, new Exception("任务【" + c + "】资源运行异常，可能需要手动卸载。任务处于停止状态，但是相应集群节点中，发现任务存在在运行池中未释放"));
+                    _LogService.AddTaskError(c, "任务【" + c + "】资源运行异常，可能需要手动卸载。", new Exception("任务处于停止状态，但是相应集群节点中，发现任务存在在运行池中未释放"));
                 });
 
             }
             catch (Exception ex)
             {
-                _LogService.AddNodeError(GlobalConfig.NodeId, ex);
+                _LogService.AddNodeError(GlobalConfig.NodeId, "任务资源回收异常", ex);
             }
         }
     }

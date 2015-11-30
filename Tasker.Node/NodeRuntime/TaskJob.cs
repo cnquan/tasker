@@ -26,7 +26,7 @@ namespace Tasker.Node.NodeRuntime
                 NodeTaskRuntimeInfo info = TaskPoolManager.GetInstance().Get(taskId.ToString());
                 if (info == null || info.TaskDLL == null)
                 {
-                    _LogService.AddTaskError(taskId, new System.Exception("当前任务信息为空引用，任务编号【" + taskId + "】"));
+                    _LogService.AddTaskError(taskId, "", new System.Exception("当前任务信息为空引用，任务编号【" + taskId + "】"));
                     return;
                 }
                 info.TaskLock.Invoke(() =>
@@ -43,7 +43,7 @@ namespace Tasker.Node.NodeRuntime
             }
             catch (Exception ex)
             {
-                _LogService.AddNodeError(GlobalConfig.NodeId, ex);
+                _LogService.AddNodeError(GlobalConfig.NodeId, "任务回调系统异常", ex);
             }
         }
     }

@@ -48,17 +48,17 @@ namespace Tasker.Node.NodeMonitor
                     }
                     catch (Exception ex)
                     {
-                        _LogService.AddNodeError(GlobalConfig.NodeId, ex);
+                        _LogService.AddNodeError(GlobalConfig.NodeId, "节点任务异常停止检测出现错误，", ex);
                     }
                 }
                 stopTasks.ForEach((c) =>
                 {
-                    _LogService.AddTaskError(c, new Exception("任务【" + c + "】处于运行状态，但是相应集群节点中，未发现任务在运行"));
+                    _LogService.AddTaskError(c, "任务" + c + "运行可能异常停止了", new Exception("任务处于运行状态，但是相应集群节点中，未发现任务在运行"));
                 });
             }
             catch (Exception ex)
             {
-                _LogService.AddNodeError(GlobalConfig.NodeId, ex);
+                _LogService.AddNodeError(GlobalConfig.NodeId, "节点任务异常停止检测出现错误", ex);
             }
         }
     }

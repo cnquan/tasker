@@ -46,6 +46,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -64,6 +65,7 @@
     <Compile Include="LogHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DESHelper.cs" />
+    <Compile Include="Serialization\JsonHelper.cs" />
     <Compile Include="Unity\ServiceLocator.cs" />
     <Compile Include="Unity\UnityLifetimeManager.cs" />
   </ItemGroup>

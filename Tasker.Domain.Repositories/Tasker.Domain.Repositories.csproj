@@ -57,6 +57,12 @@
     <Compile Include="ModelConfigurations\TaskVersionTypeConfigurations.cs" />
     <Compile Include="ModelConfigurations\UserTypeConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\CommandRepository.cs" />
+    <Compile Include="Repositories\NodeLogRepository.cs" />
+    <Compile Include="Repositories\NodeRepository.cs" />
+    <Compile Include="Repositories\SystemRepository.cs" />
+    <Compile Include="Repositories\TaskLogRepository.cs" />
+    <Compile Include="Repositories\TaskRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="TaskerDbConnection.cs" />
     <Compile Include="TaskerDbContext.cs" />

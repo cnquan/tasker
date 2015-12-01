@@ -12,8 +12,7 @@ namespace Tasker.Domain.Services
 {
     public class UserServiceImpl : ApplicationService, IUserService
     {
-        private readonly IUserRepository _UserRepository;
-
+        private IUserRepository _UserRepository;
         public UserServiceImpl(IRepositoryContext context,
             IUserRepository userRepository)
             : base(context)

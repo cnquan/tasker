@@ -35,7 +35,7 @@ namespace Tasker.Domain.Repositories
         private void InitConnection()
         {
             string root = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string xmlfile = root.Remove(root.LastIndexOf('\\') + 1) + "Config\\efconnect.config";
+            string xmlfile = root.Remove(root.LastIndexOf('\\') + 1) + "Config\\connect.config";
             if (File.Exists(xmlfile))
             {
                 ConnectionString = GetConfigValue(xmlfile, "ConnectionString");

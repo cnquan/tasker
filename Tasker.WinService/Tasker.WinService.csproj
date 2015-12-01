@@ -77,10 +77,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SettingHelper.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -100,6 +96,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tasker.Infrastructure\Tasker.Infrastructure.csproj">
+      <Project>{42cf8ff7-efb9-48be-9bf5-104a02f9c3ad}</Project>
+      <Name>Tasker.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tasker.Node\Tasker.Node.csproj">
       <Project>{ab63201a-04eb-4809-a771-dc93f9415d97}</Project>
       <Name>Tasker.Node</Name>

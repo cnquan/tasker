@@ -6,10 +6,15 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml;
 
-namespace Tasker.WinService
+namespace Tasker.Node.Tools
 {
     public class SettingHelper : IDisposable
     {
+        /// <summary>
+        /// 服务编号
+        /// </summary>
+        public string serviceId { get; set; }
+
         /// <summary>
         /// 服务名称
         /// </summary>
@@ -24,6 +29,11 @@ namespace Tasker.WinService
         /// 服务说明
         /// </summary>
         public string description { get; set; }
+
+        /// <summary>
+        /// 数据连接
+        /// </summary>
+        public string connect { get; set; }
 
         /// <summary>
         /// 释放标志
@@ -44,18 +54,27 @@ namespace Tasker.WinService
         private void InitSettings()
         {
             string root = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            string xmlfile = root.Remove(root.LastIndexOf('\\') + 1) + "Tasker.WinService.exe.config";
+            string xmlfile = root.Remove(root.LastIndexOf('\\') + 1) + "Config\\node.config";
             if (File.Exists(xmlfile))
             {
-                serviceName = "Tasker.NodeService_" + Get_ConfigValue(xmlfile, "NodeId");
-                displayName = Get_ConfigValue(xmlfile, "NodeName");
-                description = Get_ConfigValue(xmlfile, "NodeDescription");
+                serviceId = GetConfigValue(xmlfile, "NodeId");
+                serviceName = "Tasker.NodeService_" + serviceId;
+                displayName = GetConfigValue(xmlfile, "NodeName");
+                description = GetConfigValue(xmlfile, "NodeDescription");
             }
             else
             {
-                throw new FileNotFoundException("未能找到服务名称配置文件 Tasker.WinService.exe.config！路径:" + xmlfile);
+                throw new FileNotFoundException("未能找到配置文件 node.config！ 路径:" + xmlfile);
             }
-
+            string conFile = root.Remove(root.LastIndexOf('\\') + 1) + "Config\\connect.config";
+            if (File.Exists(conFile))
+            {
+                connect = GetConfigValue(conFile, "ConnectionString");
+            }
+            else
+            {
+                throw new FileNotFoundException("未能找到配置文件 connect.config! 路径：" + conFile);
+            }
         }
 
         /// <summary>
@@ -64,7 +83,7 @@ namespace Tasker.WinService
         /// <param name="configpath">配置文件路径</param>
         /// <param name="strKeyName">键值</param>        
         /// <returns></returns>
-        protected static string Get_ConfigValue(string configpath, string strKeyName)
+        protected static string GetConfigValue(string configpath, string strKeyName)
         {
             using (XmlTextReader tr = new XmlTextReader(configpath))
             {

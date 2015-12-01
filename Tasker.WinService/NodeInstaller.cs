@@ -6,6 +6,7 @@ using System.Configuration.Install;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Specialized;
+using Tasker.Node.Tools;
 
 namespace Tasker.WinService
 {

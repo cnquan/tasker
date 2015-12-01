@@ -12,7 +12,7 @@ namespace Tasker.Node.Commands
         public override void Execute()
         {
             TaskProvider p = new TaskProvider();
-            p.Uninstall(this.CommandInfo.Task.Id);
+            p.Uninstall(this.CommandInfo.TaskId);
         }
     }
 }

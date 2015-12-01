@@ -35,7 +35,9 @@ namespace Tasker.Domain.Services
             Mapper.CreateMap<Model.TaskLog, TaskLogDTO>();
             Mapper.CreateMap<Model.TaskCategory, TaskCategoryDTO>();
             Mapper.CreateMap<Model.TaskVersion, TaskVersionDTO>();
-            Mapper.CreateMap<Model.Command, CommandDTO>();
+            Mapper.CreateMap<Model.Command, CommandDTO>()
+                .ForMember(k => k.NodeId, p => p.MapFrom(s => s.Node.Id))
+                .ForMember(k => k.TaskId, p => p.MapFrom(s => s.Task.Id));
         }
 
         /// <summary>

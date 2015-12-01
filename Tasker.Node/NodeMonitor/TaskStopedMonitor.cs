@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Tasker.Infrastructure.Unity;
 using Tasker.ServiceContracts;
 using Tasker.Node.NodeRuntime;
+using Tasker.Infrastructure.Unity;
 
 namespace Tasker.Node.NodeMonitor
 {
@@ -17,11 +18,10 @@ namespace Tasker.Node.NodeMonitor
         private ILogService _LogService;
         private INodeService _NodeService;
 
-        public TaskStopedMonitor(ILogService logService,
-            INodeService nodeService)
+        public TaskStopedMonitor()
         {
-            _LogService = logService;
-            _NodeService = nodeService;
+            _LogService = ServiceLocator.Instance.GetService<ILogService>();
+            _NodeService = ServiceLocator.Instance.GetService<INodeService>();
         }
 
         public override int Interval

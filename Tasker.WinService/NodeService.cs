@@ -7,7 +7,12 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 using Tasker.Node;
+using Tasker.Node.Tools;
+using Tasker.Node.Commands;
+using Tasker.Node.NodeMonitor;
+using Tasker.Infrastructure;
 
 namespace Tasker.WinService
 {
@@ -20,14 +25,33 @@ namespace Tasker.WinService
 
         protected override void OnStart(string[] args)
         {
-            // TODO: 在此处添加代码以启动服务。
-            
+            try
+            {
+                using (SettingHelper se = new SettingHelper())
+                {
+                    GlobalConfig.NodeId = se.serviceId.To<int>();
+                    GlobalConfig.TaskConnectString = se.connect;
+                }
+                if (GlobalConfig.NodeId <= 0 || GlobalConfig.TaskConnectString.IsNull())
+                {
+                    LogHelper.Write("节点服务配置错误，请查看 /Config 下配置项！", LogLevel.ERROR);
+                }
+                IOHelper.DirMake(AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\') + "\\" + GlobalConfig.TaskDLLShareDir + @"\");
+                CommandQueue.Start();
+                GlobalConfig.Monitors.Add(new NodeHeartBeatMonitor());
+                GlobalConfig.Monitors.Add(new TaskRecoverMonitor());
+                GlobalConfig.Monitors.Add(new TaskStopedMonitor());
+                LogHelper.Write("节点服务启动成功！", LogLevel.INFO);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Write("节点服务启动失败！", LogLevel.ERROR);
+            }
         }
 
         protected override void OnStop()
         {
-            // TODO: 在此处添加代码以执行停止服务所需的关闭操作。
-            
+            LogHelper.Write("节点服务已经停止！", LogLevel.INFO);
         }
     }
 }

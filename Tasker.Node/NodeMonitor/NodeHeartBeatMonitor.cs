@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tasker.ServiceContracts;
 using Tasker.DataObject;
+using Tasker.Infrastructure.Unity;
 
 namespace Tasker.Node.NodeMonitor
 {
@@ -16,11 +17,10 @@ namespace Tasker.Node.NodeMonitor
         INodeService _NodeService;
         ISystemService _SysService;
 
-        public NodeHeartBeatMonitor(INodeService nodeService,
-            ISystemService sysService)
+        public NodeHeartBeatMonitor()
         {
-            _SysService = sysService;
-            _NodeService = nodeService;
+            _SysService = ServiceLocator.Instance.GetService<ISystemService>();
+            _NodeService = ServiceLocator.Instance.GetService<INodeService>();
         }
 
         public override int Interval

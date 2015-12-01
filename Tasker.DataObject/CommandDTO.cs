@@ -26,12 +26,12 @@ namespace Tasker.DataObject
         /// <summary>
         /// 节点
         /// </summary>
-        public NodeDTO Node { get; set; }
+        public int NodeId { get; set; }
 
         /// <summary>
         /// 任务
         /// </summary>
-        public TaskDTO Task { get; set; }
+        public int TaskId { get; set; }
 
         /// <summary>
         /// 创建时间

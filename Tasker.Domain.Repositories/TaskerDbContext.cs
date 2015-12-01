@@ -104,7 +104,8 @@ namespace Tasker.Domain.Repositories
                         .Add(new ModelConfigurations.TaskLogTypeConfigurations())
                         .Add(new ModelConfigurations.TaskTypeConfigurations())
                         .Add(new ModelConfigurations.TaskVersionTypeConfigurations())
-                        .Add(new ModelConfigurations.NodeLogTypeConfigurations());
+                        .Add(new ModelConfigurations.NodeLogTypeConfigurations())
+                        .Add(new ModelConfigurations.CommandTypeConfigurations());
             base.OnModelCreating(modelBuilder);
         }
     }

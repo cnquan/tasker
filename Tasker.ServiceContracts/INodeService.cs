@@ -30,5 +30,27 @@ namespace Tasker.ServiceContracts
         /// <param name="state">任务状态</param>
         /// <returns></returns>
         List<int> GetNodeTasks(int nodeId, Constants.TaskState taskState);
+
+        /// <summary>
+        /// 获取节点命令
+        /// </summary>
+        /// <param name="nodeId"></param>
+        /// <param name="lastCommandId"></param>
+        /// <returns></returns>
+        List<CommandDTO> GetNodeCommands(int nodeId, int lastCommandId = -1);
+
+        /// <summary>
+        /// 获取节点最新命令
+        /// </summary>
+        /// <param name="nodeId"></param>
+        /// <returns></returns>
+        int GetNodeLastCommandId(int nodeId);
+
+        /// <summary>
+        /// 更新节点命令
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        bool UpdateNodeCommand(CommandDTO obj);
     }
 }

@@ -73,7 +73,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\efconnect.config">
+    <None Include="Config\connect.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

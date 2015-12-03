@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tasker.Domain.Repositories
 {
-    public interface ICommandRepository
+    public interface ICommandRepository : IRepository<Model.Command>
     {
         List<Model.Command> GetNodeCommands(int nodeId);
 
@@ -15,9 +15,5 @@ namespace Tasker.Domain.Repositories
         List<Model.Command> GetNodeLastCommands(int nodeId, int lastCommandId);
 
         Model.Command GetNodeLastCommand(int nodeId);
-
-        bool AddCommand(Model.Command obj);
-
-        bool UpdateCommand(Model.Command obj);
     }
 }

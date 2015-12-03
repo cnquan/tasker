@@ -20,12 +20,22 @@ namespace Tasker.Domain.Model
         /// <summary>
         /// 宿主节点
         /// </summary>
-        public Node Node { get; set; }
+        public int NodeId { get; set; }
+
+        /// <summary>
+        /// 宿主节点
+        /// </summary>
+        public virtual Node Node { get; set; }
 
         /// <summary>
         /// 任务
         /// </summary>
-        public Task Task { get; set; }
+        public int TaskId { get; set; }
+
+        /// <summary>
+        /// 任务
+        /// </summary>
+        public virtual Task Task { get; set; }
 
         /// <summary>
         /// CPU占用率

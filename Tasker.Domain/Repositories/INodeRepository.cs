@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Tasker.Domain.Repositories
 {
-    public interface INodeRepository
+    public interface INodeRepository : IRepository<Model.Node>
     {
         Model.Node GetNode(int Id);
-
-        bool AddNode(Model.Node obj);
-
-        bool UpdateNode(Model.Node obj);
     }
 }

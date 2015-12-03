@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace Tasker.Domain.Repositories.Repositories
 {
@@ -12,18 +13,5 @@ namespace Tasker.Domain.Repositories.Repositories
         public NodeLogRepository(IRepositoryContext context)
             : base(context)
         { }
-
-        public bool AddNodeLog(Model.NodeLog obj)
-        {
-            try
-            {
-                base.Add(obj);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
     }
 }

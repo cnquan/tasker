@@ -35,18 +35,21 @@ namespace Tasker.Domain.Services
         public bool RefreshNode(DataObject.NodeDTO obj)
         {
             Model.Node node = _NodeRepository.GetNode(obj.Id);
-            bool r = false;
             try
             {
                 if (node == null)
-                    r = _NodeRepository.AddNode(AutoMapper.Mapper.Map<DataObject.NodeDTO, Model.Node>(obj));
+                {
+                    _NodeRepository.Add(AutoMapper.Mapper.Map<DataObject.NodeDTO, Model.Node>(obj));
+                    _NodeRepository.Context.Commit();
+                }
                 else
                 {
                     node.NodeHost = obj.NodeHost;
                     node.UpdateTime = obj.UpdateTime;
-                    r = _NodeRepository.UpdateNode(node);
+                    _NodeRepository.Modify(node);
+                    _NodeRepository.Context.Commit();
                 }
-                return r;
+                return true;
             }
             catch (Exception ex)
             {
@@ -83,7 +86,16 @@ namespace Tasker.Domain.Services
 
         public bool UpdateNodeCommand(DataObject.CommandDTO obj)
         {
-            return _CommandRepository.UpdateCommand(AutoMapper.Mapper.Map<DataObject.CommandDTO, Model.Command>(obj));
+            try
+            {
+                _CommandRepository.Modify(AutoMapper.Mapper.Map<DataObject.CommandDTO, Model.Command>(obj));
+                _CommandRepository.Context.Commit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

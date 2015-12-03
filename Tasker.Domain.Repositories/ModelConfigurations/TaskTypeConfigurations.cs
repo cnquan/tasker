@@ -28,6 +28,18 @@ namespace Tasker.Domain.Repositories.ModelConfigurations
                 .HasMaxLength(200);
             Property(x => x.Remark)
                 .HasMaxLength(2000);
+            HasRequired(x => x.Category)
+                .WithMany()
+                .HasForeignKey(x => x.CategoryId);
+            HasRequired(x => x.TaskVersion)
+                .WithMany()
+                .HasForeignKey(x => x.VersionId);
+            HasRequired(x => x.Creator)
+                .WithMany()
+                .HasForeignKey(x => x.CreatorId);
+            HasRequired(x => x.Node)
+                .WithMany()
+                .HasForeignKey(x => x.NodeId);
         }
     }
 }

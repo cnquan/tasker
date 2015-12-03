@@ -29,7 +29,16 @@ namespace Tasker.Domain.Services
             if (t == null)
                 throw new Exception("任务:" + Id + ",已被删除");
             t.TaskState = (Storage.Constants.TaskState)state;
-            return _TaskRepository.UpdateTask(t);
+            try
+            {
+                _TaskRepository.Modify(t);
+                _TaskRepository.Context.Commit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

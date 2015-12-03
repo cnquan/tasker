@@ -31,11 +31,13 @@ namespace Tasker.Domain.Services
             Model.NodeLog log = new Model.NodeLog()
             {
                 LogType = Storage.Constants.LogType.SystemLog,
-                Node = _NodeRepository.GetNode(nodeId),
+                NodeId = nodeId,
                 CreateTime = DateTime.Now,
                 Content = msg
             };
-            return _NodeLogRepository.AddNodeLog(log);
+            _NodeLogRepository.Add(log);
+            _NodeLogRepository.Context.Commit();
+            return true;
         }
 
         public bool AddNodeError(int nodeId, string msg, Exception ex)
@@ -43,11 +45,13 @@ namespace Tasker.Domain.Services
             Model.NodeLog log = new Model.NodeLog()
             {
                 LogType = Storage.Constants.LogType.SystemError,
-                Node = _NodeRepository.GetNode(nodeId),
+                NodeId = nodeId,
                 CreateTime = DateTime.Now,
                 Content = string.Format(@"{0},错误信息:{1},堆栈信息:{2}", msg, ex.Message, ex.StackTrace)
             };
-            return _NodeLogRepository.AddNodeLog(log);
+            _NodeLogRepository.Add(log);
+            _NodeLogRepository.Context.Commit();
+            return true;
         }
 
         public bool AddTaskLog(int taskId, string msg)
@@ -61,7 +65,9 @@ namespace Tasker.Domain.Services
                 CreateTime = DateTime.Now,
                 Content = msg
             };
-            return _TaskLogRepository.AddTaskLog(log);
+            _TaskLogRepository.Add(log);
+            _TaskLogRepository.Context.Commit();
+            return true;
         }
 
         public bool AddTaskError(int taskId, string msg, Exception ex)
@@ -75,7 +81,9 @@ namespace Tasker.Domain.Services
                 CreateTime = DateTime.Now,
                 Content = string.Format(@"{0},错误信息:{1},堆栈信息:{2}", msg, ex.Message, ex.StackTrace)
             };
-            return _TaskLogRepository.AddTaskLog(log);
+            _TaskLogRepository.Add(log);
+            _TaskLogRepository.Context.Commit();
+            return true;
         }
     }
 }

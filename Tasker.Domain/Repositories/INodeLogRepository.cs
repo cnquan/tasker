@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Tasker.Domain.Repositories
 {
-    public interface INodeLogRepository
+    public interface INodeLogRepository : IRepository<Model.NodeLog>
     {
-        bool AddNodeLog(Model.NodeLog obj);
+
     }
 }

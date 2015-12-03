@@ -38,6 +38,7 @@ namespace Tasker.Domain.Services
             Mapper.CreateMap<Model.Command, CommandDTO>()
                 .ForMember(k => k.NodeId, p => p.MapFrom(s => s.Node.Id))
                 .ForMember(k => k.TaskId, p => p.MapFrom(s => s.Task.Id));
+            Mapper.CreateMap<NodeDTO, Model.Node>();
         }
 
         /// <summary>

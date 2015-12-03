@@ -40,31 +40,5 @@ namespace Tasker.Domain.Repositories.Repositories
         {
             return base.FindAll(null, null, Storage.SortOrder.Descending, x => x.Task).FirstOrDefault();
         }
-
-        public bool AddCommand(Model.Command obj)
-        {
-            try
-            {
-                base.Add(obj);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public bool UpdateCommand(Model.Command obj)
-        {
-            try
-            {
-                base.Modify(obj);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
     }
 }

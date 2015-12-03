@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using Tasker.Domain.Model;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace Tasker.Domain.Repositories
 {
@@ -96,6 +97,7 @@ namespace Tasker.Domain.Repositories
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();//关闭级联删除
             modelBuilder.Configurations
                         .Add(new ModelConfigurations.UserTypeConfiguration())
                         .Add(new ModelConfigurations.NodeTypeConfigurations())

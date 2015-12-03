@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Tasker.Domain.Repositories
 {
-    public interface ITaskRepository
+    public interface ITaskRepository : IRepository<Model.Task>
     {
         Model.Task GetTask(int Id);
-
-        bool UpdateTask(Model.Task obj);
     }
 }

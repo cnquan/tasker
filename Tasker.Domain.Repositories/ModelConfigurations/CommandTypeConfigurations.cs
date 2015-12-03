@@ -20,6 +20,12 @@ namespace Tasker.Domain.Repositories.ModelConfigurations
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.CommandName)
                 .HasMaxLength(200);
+            HasRequired(x => x.Node)
+                .WithMany()
+                .HasForeignKey(x => x.NodeId);
+            HasRequired(x => x.Task)
+                .WithMany()
+                .HasForeignKey(x => x.TaskId);
         }
     }
 }

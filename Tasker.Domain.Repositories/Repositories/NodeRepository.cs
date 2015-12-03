@@ -19,31 +19,5 @@ namespace Tasker.Domain.Repositories.Repositories
         {
             return base.Find(x => x.Id == Id);
         }
-
-        public bool AddNode(Model.Node obj)
-        {
-            try
-            {
-                base.Add(obj);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public bool UpdateNode(Model.Node obj)
-        {
-            try
-            {
-                base.Modify(obj);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
     }
 }

@@ -24,22 +24,22 @@ namespace Tasker.Domain.Repositories.EntityFramework
 
         public void BeginTransaction()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Commit()
         {
-            throw new NotImplementedException();
+            Context.SaveChanges();
         }
 
         public void Rollback()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

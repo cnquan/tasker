@@ -21,18 +21,5 @@ namespace Tasker.Domain.Repositories.Repositories
                              x => x.TaskVersion,
                              x => x.Category);
         }
-
-        public bool UpdateTask(Model.Task obj)
-        {
-            try
-            {
-                base.Modify(obj);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
     }
 }

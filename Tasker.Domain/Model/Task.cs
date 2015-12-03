@@ -26,12 +26,22 @@ namespace Tasker.Domain.Model
         /// <summary>
         /// 任务类别
         /// </summary>
-        public TaskCategory Category { get; set; }
+        public int CategoryId { get; set; }
+
+        /// <summary>
+        /// 任务类别
+        /// </summary>
+        public virtual TaskCategory Category { get; set; }
 
         /// <summary>
         /// 宿主节点
         /// </summary>
-        public Node Node { get; set; }
+        public int NodeId { get; set; }
+
+        /// <summary>
+        /// 宿主节点
+        /// </summary>
+        public virtual Node Node { get; set; }
 
         /// <summary>
         /// 任务创建时间
@@ -74,9 +84,14 @@ namespace Tasker.Domain.Model
         public Constants.TaskState? TaskState { get; set; }
 
         /// <summary>
+        /// 任务版本
+        /// </summary>
+        public int VersionId { get; set; }
+
+        /// <summary>
         /// 任务版本号
         /// </summary>
-        public TaskVersion TaskVersion { get; set; }
+        public virtual TaskVersion TaskVersion { get; set; }
 
         /// <summary>
         /// 任务配置
@@ -101,7 +116,12 @@ namespace Tasker.Domain.Model
         /// <summary>
         /// 创建人
         /// </summary>
-        public User Creator { get; set; }
+        public int CreatorId { get; set; }
+
+        /// <summary>
+        /// 创建人
+        /// </summary>
+        public virtual User Creator { get; set; }
 
         /// <summary>
         /// 创建时间

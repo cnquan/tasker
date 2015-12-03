@@ -29,14 +29,24 @@ namespace Tasker.Domain.Model
         public Constants.CommandState? State { get; set; }
 
         /// <summary>
+        /// 节点ID
+        /// </summary>
+        public int NodeId { get; set; }
+
+        /// <summary>
         /// 节点
         /// </summary>
-        public Node Node { get; set; }
+        public virtual Node Node { get; set; }
+
+        /// <summary>
+        /// 任务ID
+        /// </summary>
+        public int TaskId { get; set; }
 
         /// <summary>
         /// 任务
         /// </summary>
-        public Task Task { get; set; }
+        public virtual Task Task { get; set; }
 
         /// <summary>
         /// 创建时间

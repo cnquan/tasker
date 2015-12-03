@@ -19,9 +19,9 @@ namespace Tasker.Domain.Model
         public int Id { get; set; }
 
         /// <summary>
-        /// 节点
+        /// 节点标识
         /// </summary>
-        public Node Node { get; set; }
+        public int NodeId { get; set; }
 
         /// <summary>
         /// 日志内容
@@ -37,5 +37,10 @@ namespace Tasker.Domain.Model
         /// 创建时间
         /// </summary>
         public DateTime? CreateTime { get; set; }
+
+        /// <summary>
+        /// 节点
+        /// </summary>
+        public virtual Node Node { get; set; }
     }
 }

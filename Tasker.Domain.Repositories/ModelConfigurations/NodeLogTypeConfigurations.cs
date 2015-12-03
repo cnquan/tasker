@@ -9,7 +9,7 @@ using Tasker.Domain.Model;
 
 namespace Tasker.Domain.Repositories.ModelConfigurations
 {
-    public class NodeLogTypeConfigurations:EntityTypeConfiguration<Model.NodeLog>
+    public class NodeLogTypeConfigurations : EntityTypeConfiguration<Model.NodeLog>
     {
         public NodeLogTypeConfigurations()
         {
@@ -18,6 +18,9 @@ namespace Tasker.Domain.Repositories.ModelConfigurations
             Property(x => x.Id)
                 .IsRequired()
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasRequired(x => x.Node)
+                .WithMany()
+                .HasForeignKey(x => x.NodeId);
         }
     }
 }

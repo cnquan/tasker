@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Tasker.Domain.Repositories
 {
-    public interface ITaskLogRepository
+    public interface ITaskLogRepository : IRepository<Model.TaskLog>
     {
-        bool AddTaskLog(Model.TaskLog obj);
+
     }
 }

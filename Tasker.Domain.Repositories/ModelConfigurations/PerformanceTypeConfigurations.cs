@@ -18,6 +18,12 @@ namespace Tasker.Domain.Repositories.ModelConfigurations
             Property(x => x.Id)
                 .IsRequired()
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasRequired(x => x.Node)
+                .WithMany()
+                .HasForeignKey(x => x.NodeId);
+            HasRequired(x => x.Task)
+                .WithMany()
+                .HasForeignKey(x => x.TaskId);
         }
     }
 }

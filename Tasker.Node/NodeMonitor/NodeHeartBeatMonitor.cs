@@ -14,31 +14,25 @@ namespace Tasker.Node.NodeMonitor
     /// </summary>
     public class NodeHeartBeatMonitor : BaseMonitor
     {
-        INodeService _NodeService;
-        ISystemService _SysService;
-
-        public NodeHeartBeatMonitor()
-        {
-            _SysService = ServiceLocator.Instance.GetService<ISystemService>();
-            _NodeService = ServiceLocator.Instance.GetService<INodeService>();
-        }
-
         public override int Interval
         {
             get
             {
-                return _NodeService.GetNodeHeartBeat(GlobalConfig.NodeId);
+                return new Tools.ServiceSupport().NodeService.GetNodeHeartBeat(GlobalConfig.NodeId);
             }
         }
 
         public override void Run()
         {
-            _NodeService.RefreshNode(new NodeDTO()
+            Tools.ServiceSupport service = new Tools.ServiceSupport();
+            DateTime sysTime = service.SystemService.GetSysTime();
+            service.NodeService.RefreshNode(new NodeDTO()
             {
                 Id = GlobalConfig.NodeId,
                 NodeHost = System.Net.Dns.GetHostName(),
                 NodeName = "新增节点_" + GlobalConfig.NodeId,
-                UpdateTime = _SysService.GetSysTime(),
+                CreateTime = sysTime,
+                UpdateTime = sysTime,
                 NodeHeartbeat = 10000
             });
         }

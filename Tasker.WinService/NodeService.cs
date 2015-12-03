@@ -45,7 +45,7 @@ namespace Tasker.WinService
             }
             catch (Exception ex)
             {
-                LogHelper.Write("节点服务启动失败！", LogLevel.ERROR);
+                LogHelper.Write("节点服务启动失败！错误信息：" + ex.Message + ex.StackTrace, LogLevel.ERROR);
             }
         }
 

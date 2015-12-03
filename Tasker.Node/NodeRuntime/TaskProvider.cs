@@ -18,20 +18,11 @@ namespace Tasker.Node.NodeRuntime
     /// </summary>
     public class TaskProvider
     {
-        ITaskService _TaskService;
-        ILogService _LogService;
-
-        public TaskProvider(ITaskService taskService,
-            ILogService logService)
-        {
-            _TaskService = taskService;
-            _LogService = logService;
-        }
+        Tools.ServiceSupport _Service;
 
         public TaskProvider()
         {
-            _TaskService = ServiceLocator.Instance.GetService<ITaskService>();
-            _LogService = ServiceLocator.Instance.GetService<ILogService>();
+            _Service = new Tools.ServiceSupport();
         }
 
         /// <summary>
@@ -43,12 +34,12 @@ namespace Tasker.Node.NodeRuntime
             var taskRuntime = TaskPoolManager.GetInstance().Get(taskId.ToString());
             if (taskRuntime != null)
             {
-                throw new Exception("任务【" + taskRuntime.Task.TaskName + "】已在运行中");
+                throw new Exception("任务[" + taskRuntime.Task.TaskName + "]已在运行中");
             }
 
             taskRuntime = new NodeTaskRuntimeInfo();
             taskRuntime.TaskLock = new TaskLock();
-            taskRuntime.Task = _TaskService.GetTask(taskId);
+            taskRuntime.Task = _Service.TaskService.GetTask(taskId);
 
             string localPath = AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\')
                                 + "\\" + GlobalConfig.TaskDLLCacheDir
@@ -109,10 +100,10 @@ namespace Tasker.Node.NodeRuntime
                 bool result = TaskPoolManager.GetInstance().Add(taskId.ToString(), taskRuntime);
                 if (result)
                 {
-                    _TaskService.UpdateTaskState(taskId, DataObject.Constants.TaskState.Running);
+                    _Service.TaskService.UpdateTaskState(taskId, DataObject.Constants.TaskState.Running);
                 }
-                _LogService.AddNodeLog(taskRuntime.Task.Node.Id,
-                    "节点【" + taskRuntime.Task.Node.NodeName + "】开启任务【" + taskRuntime.Task.TaskName + "】成功！");
+                _Service.LogService.AddNodeLog(taskRuntime.Task.Node.Id,
+                    "节点[" + taskRuntime.Task.Node.NodeName + "]开启任务[" + taskRuntime.Task.TaskName + "]成功！");
                 return result;
             }
             catch (Exception ex)
@@ -132,17 +123,17 @@ namespace Tasker.Node.NodeRuntime
             bool result;
             if (task == null)
             {
-                result = _TaskService.UpdateTaskState(taskId, DataObject.Constants.TaskState.Stop);
+                result = _Service.TaskService.UpdateTaskState(taskId, DataObject.Constants.TaskState.Stop);
             }
             else
             {
                 result = Dispose(taskId, task, true);
                 if (result)
                 {
-                    _TaskService.UpdateTaskState(taskId, DataObject.Constants.TaskState.Stop);
+                    _Service.TaskService.UpdateTaskState(taskId, DataObject.Constants.TaskState.Stop);
                 }
             }
-            _LogService.AddTaskLog(taskId, "节点【" + GlobalConfig.NodeId + "】停止任务成功");
+            _Service.LogService.AddTaskLog(taskId, "节点[" + GlobalConfig.NodeId + "]停止任务成功");
             return result;
         }
 
@@ -156,17 +147,17 @@ namespace Tasker.Node.NodeRuntime
             bool result = true;
             if (task == null)
             {
-                result = _TaskService.UpdateTaskState(taskId, DataObject.Constants.TaskState.Stop);
+                result = _Service.TaskService.UpdateTaskState(taskId, DataObject.Constants.TaskState.Stop);
             }
             else
             {
                 result = Dispose(taskId, task, true);
                 if (result)
                 {
-                    _TaskService.UpdateTaskState(taskId, DataObject.Constants.TaskState.Stop);
+                    _Service.TaskService.UpdateTaskState(taskId, DataObject.Constants.TaskState.Stop);
                 }
             }
-            _LogService.AddTaskLog(taskId, "节点【" + GlobalConfig.NodeId + "】卸载任务成功");
+            _Service.LogService.AddTaskLog(taskId, "节点[" + GlobalConfig.NodeId + "]卸载任务成功");
             return result;
         }
 
@@ -188,12 +179,12 @@ namespace Tasker.Node.NodeRuntime
                 }
                 catch (TaskDisposeTimeOutException e)
                 {
-                    _LogService.AddNodeError(GlobalConfig.NodeId, "强制释放任务资源", e);
+                    _Service.LogService.AddNodeError(GlobalConfig.NodeId, "强制释放任务资源", e);
                     if (!isForce) throw e;
                 }
                 catch (Exception ex)
                 {
-                    _LogService.AddNodeError(GlobalConfig.NodeId, "强制释放任务资源", ex);
+                    _Service.LogService.AddNodeError(GlobalConfig.NodeId, "强制释放任务资源", ex);
                 }
             }
             if (info != null && info.Domain != null)
@@ -205,7 +196,7 @@ namespace Tasker.Node.NodeRuntime
                 }
                 catch (Exception e)
                 {
-                    _LogService.AddNodeError(GlobalConfig.NodeId, "强制释放应用程序域", e);
+                    _Service.LogService.AddNodeError(GlobalConfig.NodeId, "强制释放应用程序域", e);
                 }
             }
             if (TaskPoolManager.GetInstance().Get(taskId.ToString()) != null)
@@ -216,10 +207,10 @@ namespace Tasker.Node.NodeRuntime
                 }
                 catch (Exception e)
                 {
-                    _LogService.AddNodeError(GlobalConfig.NodeId, "强制是否任务池", e);
+                    _Service.LogService.AddNodeError(GlobalConfig.NodeId, "强制是否任务池", e);
                 }
             }
-            _LogService.AddTaskLog(taskId, "节点【" + GlobalConfig.NodeId + "】已对任务【" + taskId + "】进行资源释放");
+            _Service.LogService.AddTaskLog(taskId, "节点[" + GlobalConfig.NodeId + "]已对任务[" + taskId + "]进行资源释放");
             return true;
         }
     }

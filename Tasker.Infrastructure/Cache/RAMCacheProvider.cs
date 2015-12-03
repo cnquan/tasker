@@ -36,13 +36,12 @@ namespace Tasker.Infrastructure.Cache
             if (_Data.ContainsKey(key))
             {
                 dict = (Dictionary<string, object>)_Data[key];
-                dict[valKey] = value;
+                dict.Add(valKey, value);
             }
             else
             {
                 dict = new Dictionary<string, object> { { valKey, value } };
             }
-            _Data.Add(key, dict);
         }
 
         /// <summary>

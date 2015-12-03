@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Tasker.Infrastructure.Unity;
 using Tasker.ServiceContracts;
 using Tasker.Node.NodeRuntime;
-using Tasker.Infrastructure.Unity;
+using Tasker.Infrastructure;
 
 namespace Tasker.Node.NodeMonitor
 {
@@ -15,15 +15,6 @@ namespace Tasker.Node.NodeMonitor
     /// </summary>
     public class TaskStopedMonitor : BaseMonitor
     {
-        private ILogService _LogService;
-        private INodeService _NodeService;
-
-        public TaskStopedMonitor()
-        {
-            _LogService = ServiceLocator.Instance.GetService<ILogService>();
-            _NodeService = ServiceLocator.Instance.GetService<INodeService>();
-        }
-
         public override int Interval
         {
             get
@@ -36,7 +27,8 @@ namespace Tasker.Node.NodeMonitor
         {
             try
             {
-                List<int> tasks = _NodeService.GetNodeTasks(GlobalConfig.NodeId, DataObject.Constants.TaskState.Running);
+                Tools.ServiceSupport service = new Tools.ServiceSupport();
+                List<int> tasks = service.NodeService.GetNodeTasks(GlobalConfig.NodeId, DataObject.Constants.TaskState.Running);
                 List<int> stopTasks = new List<int>();
                 foreach (var item in tasks)
                 {
@@ -48,17 +40,17 @@ namespace Tasker.Node.NodeMonitor
                     }
                     catch (Exception ex)
                     {
-                        _LogService.AddNodeError(GlobalConfig.NodeId, "节点任务异常停止检测出现错误，", ex);
+                        service.LogService.AddNodeError(GlobalConfig.NodeId, "节点任务异常停止检测出现错误，", ex);
                     }
                 }
                 stopTasks.ForEach((c) =>
                 {
-                    _LogService.AddTaskError(c, "任务" + c + "运行可能异常停止了", new Exception("任务处于运行状态，但是相应集群节点中，未发现任务在运行"));
+                    service.LogService.AddTaskError(c, "任务[" + c + "]运行可能异常停止了", new Exception("任务处于运行状态，但是相应集群节点中，未发现任务在运行"));
                 });
             }
             catch (Exception ex)
             {
-                _LogService.AddNodeError(GlobalConfig.NodeId, "节点任务异常停止检测出现错误", ex);
+                LogHelper.Write("节点[" + GlobalConfig.NodeId + "],节点任务异常停止检测出现错误,错误信息：" + ex.Message);
             }
         }
     }

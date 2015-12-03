@@ -60,8 +60,8 @@ namespace Tasker.Domain.Services
             Model.TaskLog log = new Model.TaskLog()
             {
                 LogType = Storage.Constants.LogType.SystemLog,
-                Node = task.Node,
-                Task = task,
+                NodeId = task.Node.Id,
+                TaskId = taskId,
                 CreateTime = DateTime.Now,
                 Content = msg
             };
@@ -76,8 +76,8 @@ namespace Tasker.Domain.Services
             Model.TaskLog log = new Model.TaskLog()
             {
                 LogType = Storage.Constants.LogType.SystemError,
-                Node = task.Node,
-                Task = task,
+                NodeId = task.Node.Id,
+                TaskId = taskId,
                 CreateTime = DateTime.Now,
                 Content = string.Format(@"{0},错误信息:{1},堆栈信息:{2}", msg, ex.Message, ex.StackTrace)
             };

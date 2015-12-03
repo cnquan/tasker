@@ -23,18 +23,18 @@ namespace Tasker.Node
                 }
                 if (GlobalConfig.NodeId <= 0 || GlobalConfig.TaskConnectString.IsNull())
                 {
-                    LogHelper.Write("节点配置信息错误，请检查 \\Config 下的配置", LogLevel.ERROR);
+                    LogHelper.Write("节点配置信息错误，请检查 \\Config 下的配置");
                 }
                 Commands.CommandQueue.Start();
                 GlobalConfig.Monitors.Add(new NodeMonitor.NodeHeartBeatMonitor());
                 GlobalConfig.Monitors.Add(new NodeMonitor.TaskRecoverMonitor());
                 GlobalConfig.Monitors.Add(new NodeMonitor.TaskStopedMonitor());
-                LogHelper.Write("节点启动成功！");
+                LogHelper.Write("节点[" + GlobalConfig.NodeId + "]启动成功！");
                 Console.Read();
             }
             catch (Exception e)
             {
-                LogHelper.Write("节点启动失败，错误信息：" + e.Message, LogLevel.ERROR);
+                LogHelper.Write("节点[" + GlobalConfig.NodeId + "]启动失败，错误信息：" + e.Message);
             }
         }
     }

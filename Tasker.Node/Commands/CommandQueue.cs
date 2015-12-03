@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tasker.ServiceContracts;
 using Tasker.DataObject;
+using Tasker.Infrastructure;
 using Tasker.Infrastructure.Unity;
 
 namespace Tasker.Node.Commands
@@ -51,13 +52,11 @@ namespace Tasker.Node.Commands
         /// </summary>
         static void RecoveryTask()
         {
-            INodeService nodeService = ServiceLocator.Instance.GetService<INodeService>();
-            ILogService logService = ServiceLocator.Instance.GetService<ILogService>();
+            Tools.ServiceSupport service = new Tools.ServiceSupport();
             try
             {
-                logService.AddNodeLog(GlobalConfig.NodeId,
-                    "节点【" + GlobalConfig.NodeId + "】启动成功，准备开始恢复开启任务");
-                List<int> tasks = nodeService.GetNodeTasks(GlobalConfig.NodeId, Constants.TaskState.Running);
+                LogHelper.Write("节点[" + GlobalConfig.NodeId + "]启动成功，准备开始恢复开启任务");
+                List<int> tasks = service.NodeService.GetNodeTasks(GlobalConfig.NodeId, Constants.TaskState.Running);
                 foreach (int t in tasks)
                 {
                     try
@@ -74,16 +73,14 @@ namespace Tasker.Node.Commands
                     }
                     catch (Exception ex)
                     {
-                        logService.AddTaskError(GlobalConfig.NodeId,
-                            "恢复已经开启的任务【" + t + "】失败", ex);
+                        LogHelper.Write(string.Format("恢复已经开启的任务 {0} 失败, 错误信息：", t, ex.Message));
                     }
                 }
-                logService.AddNodeLog(GlobalConfig.NodeId,
-                    string.Format("恢复已经开启的任务完毕，共{0}条任务重启", tasks.Count));
+                LogHelper.Write(string.Format("恢复已经开启的任务完毕，共{0}条任务重启", tasks.Count));
             }
             catch (Exception e)
             {
-                logService.AddNodeError(GlobalConfig.NodeId, "恢复开启任务失败", e);
+                LogHelper.Write("节点[" + GlobalConfig.NodeId + "],恢复开启任务失败!");
             }
         }
 
@@ -92,40 +89,35 @@ namespace Tasker.Node.Commands
         /// </summary>
         static void OnCommand()
         {
-            ILogService logService = ServiceLocator.Instance.GetService<ILogService>();
-            INodeService nodeService = ServiceLocator.Instance.GetService<INodeService>();
+            Tools.ServiceSupport service = new Tools.ServiceSupport();
             while (true)
             {
                 try
                 {
                     if (_LastCommandId < 0)
-                        _LastCommandId = nodeService.GetNodeLastCommandId(GlobalConfig.NodeId);
-                    List<CommandDTO> commands = nodeService.GetNodeCommands(GlobalConfig.NodeId, _LastCommandId);
+                        _LastCommandId = service.NodeService.GetNodeLastCommandId(GlobalConfig.NodeId);
+                    List<CommandDTO> commands = service.NodeService.GetNodeCommands(GlobalConfig.NodeId, _LastCommandId);
                     foreach (CommandDTO item in commands)
                     {
                         try
                         {
                             CommandFactory.Execute(item);
                             item.State = Constants.CommandState.Success;
-                            nodeService.UpdateNodeCommand(item);
-                            logService.AddNodeLog(GlobalConfig.NodeId,
-                                string.Format("当前节点执行命令成功! id:{0},命令:{1}.}", item.Id, item.CommandName));
+                            service.NodeService.UpdateNodeCommand(item);
+                            LogHelper.Write(string.Format("当前节点执行命令成功! id:{0},命令:{1}.}", item.Id, item.CommandName));
                         }
                         catch (Exception ex)
                         {
                             item.State = Constants.CommandState.Error;
-                            nodeService.UpdateNodeCommand(item);
-                            logService.AddNodeError(GlobalConfig.NodeId,
-                                string.Format("当前节点执行命令失败！id:{0},命令:{1}", item.Id, item.CommandName),
-                                ex);
+                            service.NodeService.UpdateNodeCommand(item);
+                            LogHelper.Write(string.Format("当前节点执行命令失败！id:{0},命令:{1}", item.Id, item.CommandName));
                         }
                         _LastCommandId = Math.Max(_LastCommandId, item.Id);
                     }
                 }
                 catch (Exception e)
                 {
-                    logService.AddNodeError(GlobalConfig.NodeId,
-                        "节点【" + GlobalConfig.NodeId + "】命令监听异常", e);
+                    LogHelper.Write("节点：" + GlobalConfig.NodeId + ",命令监听异常,错误信息:" + e.Message);
                 }
                 Thread.Sleep(3000);
             }

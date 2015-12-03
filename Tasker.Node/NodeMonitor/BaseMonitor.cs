@@ -48,7 +48,7 @@ namespace Tasker.Node.NodeMonitor
                 catch (Exception ex)
                 {
                     string msg = string.Format("{0}监控严重错误，错误信息:{1}，堆栈:{2}", this.GetType().Name, ex.Message, ex.StackTrace);
-                    LogHelper.Write(msg, LogLevel.ERROR);
+                    LogHelper.Write(msg);
                 }
             }
         }

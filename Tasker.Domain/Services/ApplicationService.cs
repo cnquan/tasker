@@ -27,17 +27,14 @@ namespace Tasker.Domain.Services
         /// </remarks>
         static ApplicationService()
         {
-            Mapper.CreateMap<Model.User, UserDTO>()
-                .ForMember(dest => dest.Remark, opt => opt.MapFrom(src => src.Remark));
+            Mapper.CreateMap<Model.User, UserDTO>();
             Mapper.CreateMap<Model.Node, NodeDTO>();
             Mapper.CreateMap<Model.NodeLog, NodeLogDTO>();
             Mapper.CreateMap<Model.Task, TaskDTO>();
             Mapper.CreateMap<Model.TaskLog, TaskLogDTO>();
             Mapper.CreateMap<Model.TaskCategory, TaskCategoryDTO>();
             Mapper.CreateMap<Model.TaskVersion, TaskVersionDTO>();
-            Mapper.CreateMap<Model.Command, CommandDTO>()
-                .ForMember(k => k.NodeId, p => p.MapFrom(s => s.Node.Id))
-                .ForMember(k => k.TaskId, p => p.MapFrom(s => s.Task.Id));
+            Mapper.CreateMap<Model.Command, CommandDTO>();
             Mapper.CreateMap<NodeDTO, Model.Node>();
         }
 
